@@ -16,26 +16,17 @@ void init_router(struct router *rt, unsigned char routerID, char flagg, unsigned
 	(*rt).modell[0] = *modell;
 }
 
-
-int main(int argc, char *argv[]){
-	//sjekk om riktig argumenter
-	if(argc != 2){
-		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
-		return 0;
-	}
-	
+void print_File(char *filnavn){
 	//åpner fil
-	FILE *fil = fopen(argv[1], "r");
+	FILE *fil = fopen(filnavn, "r");
 	if(fil == NULL){
-		fprintf(stderr, "Couldn't open file: %s\n", argv[1]);
-		return -1;
+		fprintf(stderr, "Couldn't open file: %s\n", filnavn);
 	}
 	
 	int line = 0;
 	char buf[256];
+	//printf("\nData from file: %s\n", buf);
 	int intNum;
-	//char *buf2 = buf[0];
-	//char *buf3 = malloc(256); //må free-es
 	while(fgets(buf, 256, fil) != NULL){
 		//intNum = atoi(buf);
 		if(line == 0){
@@ -45,10 +36,38 @@ int main(int argc, char *argv[]){
 		
 		line++;
 	}
-	
-	//printf("\nData from file: %s\n", buf);
-	
+		
 	fclose(fil);
+}
+
+void write_To_File(char *filnavn, char *str){
+	FILE *fil = fopen(filnavn, "a");
+    int i;
+   
+    if (fil == NULL) {
+		printf("I couldn't open %s for writing.\n", filnavn);
+        exit(0);
+    }
+
+	fprintf(fil, "%s\n", str);
+	fclose(fil);
+}
+
+
+int main(int argc, char *argv[]){
+	//sjekk om riktig argumenter
+	if(argc != 2){
+		fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+		return 0;
+	}
+	
+	//print
+	print_File(argv[1]);
 	
 	return 0;
 }
+
+
+
+
+
